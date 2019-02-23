@@ -1,21 +1,23 @@
 import java.io.File
 
-class Babel constructor() {
+class Babel  {
 
-    fun readFileAsLinesUsingReadLines(fileName: String): List<String> = File(fileName).readLines()
+    fun readFile(fileName: String): MutableList<String> {
+        var targetList = mutableListOf<String>()
+        File(fileName).forEachLine { targetList.add(it.split(" ")[0]) }
+        return targetList
+    }
 
-    fun calc(wordList: List<String>): List<String> {
+    fun calc(wordList: MutableList<String>) {
         var longest = ""
-        var shortest = wordList[0].split(" ")[0]
+        var shortest = wordList[0]
         var lengthSum = 0
         var wordsCount = 0
-        var targetList = emptyList<String>()
+
 
         for (word: String in wordList) {
-            val singleWord = word.split(" ")[0]
-//            targetList += singleWord
             wordsCount++
-            lengthSum += singleWord.length
+            lengthSum += word.length
             if (checkIfShortest(word, shortest.length)) {
                 shortest = word
             }
@@ -32,7 +34,6 @@ class Babel constructor() {
         print("words total : $wordsCount \n")
         print("average word length : $average \n")
         print("\n")
-        return targetList
     }
 
     private fun getAverageLength(lengthSum: Int, wordsCount: Int): Any {
@@ -66,8 +67,8 @@ class Babel constructor() {
 
 fun main(args: kotlin.Array<String>) {
     val babel = Babel()
-    val firstList = babel.readFileAsLinesUsingReadLines("src/resources/en_full.txt")
-    val secondList = babel.readFileAsLinesUsingReadLines("src/resources/pl_full.txt")
+    val firstList = babel.readFile("src/resources/en_full.txt")
+    val secondList = babel.readFile("src/resources/pl_full.txt")
 
     val outputList = babel.calc(firstList)
     val calculatedList2 = babel.calc(secondList)
